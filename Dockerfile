@@ -4,10 +4,12 @@ RUN pip install mlflow pandas flask cloudpickle==1.6.0 psutil==5.8.0 scikit-lear
 
 WORKDIR /model 
 
-COPY ./mlruns/1/0b9ccee72bb94801bcf3e4849196b6b7/artifacts/models/ .
+COPY ./mlruns/1/ede4cc6ace71468ab2e881dc14d25f6b/artifacts/models/ .
 
+#CMD ["mlflow","models","serve","-m","./","-h","0.0.0.0","-p","5000","--no-conda"]
 EXPOSE 5000
-CMD ["mlflow","models","serve","-m","./","-h","0.0.0.0","-p","5000","--no-conda"]
 
-# CMD ["python","app_wrapper.py"]    # Run this if serving as flask wrapper application and comment the above CMD
+# Run below 2 lines if serving as flask wrapper application and comment the above CMD
+COPY ./app_wrapper.py ./scaler-knn.pkl ./
+CMD ["python","app_wrapper.py"]    
 
